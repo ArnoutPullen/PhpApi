@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @Table("{name}")
+ */
+class {Name}
+{
+      /**
+      * @FieldName("id")
+      */
+      public $id;
+
+      /**
+      * @FieldName("name")
+      */
+      public $name;
+
+      /**
+      * @FieldName("created")
+      */
+      public $created;
+
+      /**
+      * @FieldName("lastModified")
+      */
+      public $lastModified;
+}

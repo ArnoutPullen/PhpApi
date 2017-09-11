@@ -1,0 +1,70 @@
+<?php
+
+
+/**
+ * Class {Name}Controller
+ * @route("/{name}")
+ */
+class {Name}Controller implements IController
+{
+    private ${name}Repository;
+
+    public function __construct({Name}Repository ${name}Repository)
+    {
+        $this->{name}Repository = ${name}Repository;
+    }
+
+    /**
+     * @route("/")
+     * @method("get")
+     */
+    public function Index()
+    {
+        $parser = new \OData\ODataToSqlQueryParser({Name}::class);
+        $query = $parser->getSql()['query'];
+        $countQuery = $parser->getSql()['countQuery'];
+        if ($countQuery != null) {
+            return [
+                "data" => $this->{name}Repository->execute($query, 0),
+                "count" => $this->{name}Repository->execute($countQuery, 3)
+            ];
+        } else {
+            return $this->{name}Repository->execute($query, 0);
+        }
+    }
+    /**
+     * @route("/:id")
+     * @method("get")
+     */
+    public function Get($id)
+    {
+        return $this->{name}Repository->get($id);
+    }
+
+    /**
+     * @route("/add")
+     * @method("post")
+     */
+    public function Add($model)
+    {
+        return  $this->{name}Repository->insert($model);
+    }
+
+    /**
+     * @route("/:id/update")
+     * @method("post")
+     */
+    public function Update($id, $model)
+    {
+        return  $this->{name}Repository->update($model);
+    }
+
+    /**
+     * @route("/:id/delete")
+     * @method("post")
+     */
+    public function Delete($id)
+    {
+        return  $this->{name}Repository->delete($id);
+    }
+}
