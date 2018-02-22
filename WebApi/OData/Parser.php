@@ -18,6 +18,7 @@ class Parser
 
     function __construct($expressionText)
     {
+		$expressionText = str_replace("\'", "'", $expressionText);
         $this->_lexer = new ExpressionLexer($expressionText);
     }
 
@@ -175,7 +176,31 @@ class Parser
         $this->_lexer->nextToken();
         return $expr;
     }
-
+    function parseContains(){
+        $this->_lexer->nextToken();
+        if ($this->_lexer->getCurrentToken()->Id != Symbol::OPENPARAM) {
+			die("expected )");
+            throw new \Exception("expected (");
+        }
+        $this->_lexer->nextToken();
+        $identifier = $this->_lexer->getCurrentToken()->getIdentifier();
+        $this->_lexer->nextToken();
+        if ($this->_lexer->getCurrentToken()->Id != Symbol::COMMA) {
+            throw new \Exception("expected ,");
+        }
+        $this->_lexer->nextToken();
+		$string = $this->_lexer->getCurrentToken();
+        if($string->Id != Symbol::STRING_LITERAL){
+            throw new \Exception("expected String");
+        }
+		$contains = new ContainsFunction($identifier, $string->Text);
+		$this->_lexer->nextToken();		 
+		if ($this->_lexer->getCurrentToken()->Id != Symbol::CLOSEPARAM) {
+			die("expected )");
+            throw new \Exception("expected )");
+        }
+        return  $contains;
+    }
     function parseAny($parent)
     {
         return $this->parseAnyAll($parent, true);
@@ -235,7 +260,11 @@ class Parser
         $this->rEnter("parsePrimaryStart");
         switch ($this->_lexer->getCurrentToken()->Id) {
             case Symbol::IDENTIFIER:
-                return $this->_lexer->getCurrentToken()->getIdentifier();
+				if ($this->isKeyWord(KeyWord::CONTAINS)) {
+                   return $this->parseContains();
+                } else {
+					return $this->_lexer->getCurrentToken()->getIdentifier();
+				}
                 break;
             case Symbol::OPENPARAM:
                 return $this->parseParenExpression();

@@ -23,4 +23,5 @@ class KeyWord
     const TRUE = 'true';
     const ALL = 'all';
     const ANY = 'any';
+    const CONTAINS = 'contains';
 }

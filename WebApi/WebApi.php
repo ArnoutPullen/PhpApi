@@ -13,6 +13,7 @@ require 'OData/LogicalExpression.php';
 require 'OData/LiteralToken.php';
 require 'OData/UnaryOperatorKind.php';
 require 'OData/UnaryExpression.php';
+require 'OData/ContainsFunction.php';
 require 'OData/ExpressionToSql.php';
 require 'OData/ODataQueryParser.php';
 //Core
