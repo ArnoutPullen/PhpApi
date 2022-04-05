@@ -1,6 +1,5 @@
 <?php
 
-
 class EventRepository extends \Data\Repository
 {
     function __construct(\Data\DatabaseConnection $connection)

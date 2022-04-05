@@ -1,13 +1,13 @@
 <?php
+
+namespace Data;
+
 /**
  * Created by PhpStorm.
  * User: Gerjan
  * Date: 5-9-2017
  * Time: 20:40
  */
-
-namespace Data;
-
 class ArrayList
 {
     private $currentPrediction;

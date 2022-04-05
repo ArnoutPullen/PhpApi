@@ -14,18 +14,22 @@ class Event
      * @FieldName("name")
      */
     public $name;
+
     /**
      * @FieldName("description")
      */
     public $description;
+
     /**
      * @FieldName("start")
      */
     public $start;
+
     /**
      * @FieldName("end")
      */
     public $end;
+
     /**
      * @FieldName("created")
      */

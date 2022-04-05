@@ -1,14 +1,13 @@
 <?php
+
+namespace OData;
+
 /**
  * Created by PhpStorm.
  * User: Gerjan
  * Date: 29-7-2017
  * Time: 15:27
  */
-
-namespace OData;
-
-
 class Parser
 {
 
@@ -18,13 +17,12 @@ class Parser
 
     function __construct($expressionText)
     {
-		$expressionText = str_replace("\'", "'", $expressionText);
+        $expressionText = str_replace("\'", "'", $expressionText);
         $this->_lexer = new ExpressionLexer($expressionText);
     }
 
     function parse()
     {
-
     }
 
     function parseLogicalOrExpression()
@@ -176,10 +174,11 @@ class Parser
         $this->_lexer->nextToken();
         return $expr;
     }
-    function parseContains(){
+    function parseContains()
+    {
         $this->_lexer->nextToken();
         if ($this->_lexer->getCurrentToken()->Id != Symbol::OPENPARAM) {
-			die("expected )");
+            die("expected )");
             throw new \Exception("expected (");
         }
         $this->_lexer->nextToken();
@@ -189,14 +188,14 @@ class Parser
             throw new \Exception("expected ,");
         }
         $this->_lexer->nextToken();
-		$string = $this->_lexer->getCurrentToken();
-        if($string->Id != Symbol::STRING_LITERAL){
+        $string = $this->_lexer->getCurrentToken();
+        if ($string->Id != Symbol::STRING_LITERAL) {
             throw new \Exception("expected String");
         }
-		$contains = new ContainsFunction($identifier, $string->Text);
-		$this->_lexer->nextToken();		 
-		if ($this->_lexer->getCurrentToken()->Id != Symbol::CLOSEPARAM) {
-			die("expected )");
+        $contains = new ContainsFunction($identifier, $string->Text);
+        $this->_lexer->nextToken();
+        if ($this->_lexer->getCurrentToken()->Id != Symbol::CLOSEPARAM) {
+            die("expected )");
             throw new \Exception("expected )");
         }
         return  $contains;
@@ -260,11 +259,11 @@ class Parser
         $this->rEnter("parsePrimaryStart");
         switch ($this->_lexer->getCurrentToken()->Id) {
             case Symbol::IDENTIFIER:
-				if ($this->isKeyWord(KeyWord::CONTAINS)) {
-                   return $this->parseContains();
+                if ($this->isKeyWord(KeyWord::CONTAINS)) {
+                    return $this->parseContains();
                 } else {
-					return $this->_lexer->getCurrentToken()->getIdentifier();
-				}
+                    return $this->_lexer->getCurrentToken()->getIdentifier();
+                }
                 break;
             case Symbol::OPENPARAM:
                 return $this->parseParenExpression();
@@ -302,5 +301,4 @@ class Parser
     {
         return $this->_lexer->getCurrentToken()->identifierIs($id);
     }
-
 }

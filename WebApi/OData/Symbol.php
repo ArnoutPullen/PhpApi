@@ -1,6 +1,7 @@
 <?php
 
 namespace OData;
+
 /**
  * Class ExpressionTokenId
  */

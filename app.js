@@ -1,19 +1,16 @@
 var fs = require("fs");
 var os = require("os");
 
-//requeires latest node version !!!!!!
-String.prototype.replaceAll = function (search, replacement) {
+// requires latest node version !!!!!!
+String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
 };
-
 
 var templateDirectory = "./Templates";
 var targetDirectory = "./";
 var indexFile = "./index.php";
 var name = "test";
-
-
 var dependecies = [];
 
 applyDirectoryTransform(templateDirectory);
@@ -26,7 +23,7 @@ function addDependecies(file) {
         input: require('fs').createReadStream(file)
     });
     var fileContents = "";
-    lineReader.on('line', function (line) {
+    lineReader.on('line', function(line) {
         if (line.charAt(0) !== "r" && line.charAt(0) !== "<" && line.charAt(0) !== "/") {
             dependecies.forEach(dp => {
                 var validName = dp.replace(".//", "").replace("./", "");
@@ -42,22 +39,22 @@ function addDependecies(file) {
         });
     });
 }
+
 function applyDirectoryTransform(dir) {
     fs.exists(dir, (exists) => {
         if (exists) {
             fs.readdir(dir, (err, files) => {
                 if (err) throw err;
-                files.forEach(function (file) {
+                files.forEach(function(file) {
                     applyTransform(dir + "/" + file);
                 }, this);
-            })
-                ;
+            });
         } else {
             fs.mkdir(dir, (err) => {
                 if (err) throw err;
                 fs.readdir(dir, (err, files) => {
                     if (err) throw err;
-                    files.forEach(function (file) {
+                    files.forEach(function(file) {
                         applyTransform(dir + "/" + file);
                     }, this);
                 });
@@ -65,6 +62,7 @@ function applyDirectoryTransform(dir) {
         }
     });
 }
+
 function applyFileTransform(filename) {
     let file = filename;
     fs.readFile(file, (err, data) => {
@@ -77,18 +75,23 @@ function applyFileTransform(filename) {
         });
     });
 }
+
 function applyFileNameTransform(filename) {
     return applyTextTransform(filename).replaceAll(".tp", ".php").replaceAll(templateDirectory, targetDirectory);
 }
+
 function applyTextTransform(text) {
     return text.replaceAll("{Name}", capitalizeFirstLetter(name)).replaceAll("{name}", lowerCaseFirstLetter(name));
 }
+
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
 function lowerCaseFirstLetter(string) {
     return string.charAt(0).toLowerCase() + string.slice(1);
 }
+
 function applyTransform(filename) {
     fs.stat(filename, (err, stat) => {
         if (err) throw err;

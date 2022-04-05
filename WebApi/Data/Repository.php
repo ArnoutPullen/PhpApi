@@ -1,14 +1,13 @@
 <?php
+
+namespace Data;
+
 /**
  * Created by PhpStorm.
  * User: Gerjan
  * Date: 18-8-2017
  * Time: 23:34
  */
-
-namespace Data;
-
-
 class Repository
 {
     private $model;
@@ -176,5 +175,4 @@ class Repository
         }
         return true;
     }
-
 }

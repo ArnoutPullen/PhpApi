@@ -1,5 +1,7 @@
 <?php
+
 namespace OData;
+
 class KeyWord
 {
     const ADD = 'add';

@@ -1,16 +1,15 @@
 <?php
+
+namespace OData;
+
+use Data\ArrayList;
+
 /**
  * Created by PhpStorm.
  * User: Gerjan
  * Date: 18-8-2017
  * Time: 20:24
  */
-
-namespace OData;
-
-
-use Data\ArrayList;
-
 class ODataToSqlQueryParser
 {
     private $model;
@@ -47,7 +46,6 @@ class ODataToSqlQueryParser
             } else {
                 $orderByArray[] = ["name" => $name, "ordering" => "asc"];
             }
-
         }
         return $orderByArray;
     }
@@ -84,7 +82,6 @@ class ODataToSqlQueryParser
         $fields = explode(",", $select);
         foreach ($fields as $field) {
             $selectArray[] = ["name" => trim($field)];
-
         }
         return $selectArray;
     }
@@ -195,5 +192,4 @@ class ODataToSqlQueryParser
             $this->getPagingSql();
         return ["query" => $query, "countQuery" => $this->totalCount() ? $countQuery : null];
     }
-
 }

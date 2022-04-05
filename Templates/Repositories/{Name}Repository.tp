@@ -1,6 +1,5 @@
 <?php
 
-
 class {Name}Repository extends \Data\Repository
 {
     function __construct(\Data\DatabaseConnection $connection)

@@ -1,14 +1,13 @@
 <?php
+
+namespace OData;
+
 /**
  * Created by PhpStorm.
  * User: Gerjan
  * Date: 18-8-2017
  * Time: 18:30
  */
-
-namespace OData;
-
-
 class ExpressionToSql
 {
     private $model;
@@ -27,9 +26,9 @@ class ExpressionToSql
     {
         if ($expression instanceof LiteralToken) {
             return $this->parseLiteral($expression);
-        } else if ($expression instanceof ContainsFunction){
-			return $this->parseContainsFunction($expression);
-		} else if ($expression instanceof BinaryExpression) {
+        } else if ($expression instanceof ContainsFunction) {
+            return $this->parseContainsFunction($expression);
+        } else if ($expression instanceof BinaryExpression) {
             return $this->parseBinaryExpression($expression);
         } else if ($expression instanceof LogicalExpression) {
             return $this->parseLogicalExpression($expression);
@@ -51,9 +50,10 @@ class ExpressionToSql
             throw new \Exception("Invalid query");
         }
     }
-	function parseContainsFunction($expression){
-		return $expression->identifier . " like '%" . str_replace("'","",$expression->string) . "%'";
-	}
+    function parseContainsFunction($expression)
+    {
+        return $expression->identifier . " like '%" . str_replace("'", "", $expression->string) . "%'";
+    }
     function parseBinaryExpression($expression)
     {
         switch ($expression->type) {
@@ -101,7 +101,7 @@ class ExpressionToSql
                 return $this->parseExpression($expression->left) . " and " . $this->parseExpression($expression->right);
                 break;
             case BinaryOperatorKind::_Or:
-                return '('. $this->parseExpression($expression->left) . ") or (" . $this->parseExpression($expression->right) . ')';
+                return '(' . $this->parseExpression($expression->left) . ") or (" . $this->parseExpression($expression->right) . ')';
                 break;
         }
         return "";
@@ -124,5 +124,4 @@ class ExpressionToSql
         }
         return "";
     }
-
 }
